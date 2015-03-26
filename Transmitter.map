@@ -1,0 +1,246 @@
+Modules linked:
+   'Transmitter' from 'Transmitter.obj'
+   'fsgt' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+   'uchar2fs' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+   'crt0' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
+   'fscmp' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+   'ulong2fs' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+   'fsreturnval' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+   'fsnormalize' from 'C:\CrossIDE\CrossIDE\Call51\Bin\..\lib\small\libfloat.lib'
+
+Memory use per module linked:
+C:00441 D:011 I:000 B:001 X:00000 - Transmitter
+C:00048 D:000 I:000 B:000 X:00000 - fsgt
+C:00011 D:000 I:000 B:000 X:00000 - uchar2fs
+C:00113 D:000 I:000 B:000 X:00000 - crt0
+C:00073 D:000 I:000 B:000 X:00000 - fscmp
+C:00019 D:000 I:000 B:000 X:00000 - ulong2fs
+C:00079 D:000 I:000 B:000 X:00000 - fsreturnval
+C:00051 D:000 I:000 B:000 X:00000 - fsnormalize
+C:00007 D:000 I:000 B:000 X:00000 - ABSOLUTE
+------------------------------------------------------
+C:00842 D:011 I:000 B:001 X:00000 - Totals
+
+INTERMAL RAM map (see legend below):
+00: 0 0 0 0 0 0 0 0 a a a a a a a a 
+10: a a . . . . . . . . . . . . . . 
+20: K B . . . . . . . . . . . . . . 
+30: . . . . . . . . . . . . . . . . 
+40: . . . . . . . . . . . . . . . . 
+50: . . . . . . . . . . . . . . . . 
+60: . . . . . . . . . . . . . . . . 
+70: . . . . . . . . . . . . . . . . 
+80: . . . . . . . . . . . . . . . . 
+90: . . . . . . . . . . . . . . . . 
+A0: . . . . . . . . . . . . . . . . 
+B0: . . . . . . . . . . . . . . . . 
+C0: . . . . . . . . . . . . . . . . 
+D0: . . . . . . . . . . . . . . . . 
+E0: . . . . . . . . . . . . . . . . 
+F0: . . . . . . . . . . . . . . . . 
+
+Legend:
+	0: Register bank 0
+	1: Register bank 1
+	2: Register bank 2
+	3: Register bank 3
+	B: bits (see 'BIT map' below)
+	K: BIT_BANK
+	a: Transmitter:R_DSEG
+
+BIT map:
+00: U U U U U U U U U . . . . . . . 
+10: . . . . . . . . . . . . . . . . 
+20: . . . . . . . . . . . . . . . . 
+30: . . . . . . . . . . . . . . . . 
+40: . . . . . . . . . . . . . . . . 
+50: . . . . . . . . . . . . . . . . 
+60: . . . . . . . . . . . . . . . . 
+70: . . . . . . . . . . . . . . . . 
+
+CODE usage map:
+0000: 244 256 256 086 000 000 000 000 000 000 000 000 000 000 000 000 
+1000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+2000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+3000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+4000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+5000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+6000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+7000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+8000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+9000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+A000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+B000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+C000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+D000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+E000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+F000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+Total: 842 bytes
+
+XDATA usage map:
+0000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+1000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+2000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+3000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+4000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+5000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+6000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+7000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+8000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+9000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+A000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+B000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+C000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+D000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+E000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+F000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
+Total: 0 bytes
+
+Base Segments:
+   BIT_BANK=D:0020, size=0001
+   R_BSEG=B:0008, size=0001
+   R_CONST=C:0000, size=0000
+   R_CSEG=C:009F, size=02B7
+   R_DINIT=C:0003, size=001B
+   R_DSEG=D:0000, size=000A
+   R_GSINIT=C:002E, size=0071
+   R_HOME=C:0000, size=0000
+   R_ISEG=I:0000, size=0000
+   R_IXSEG=X:0000, size=0000
+   R_OSEG=D:0000, size=0000
+   R_PSEG=X:0000, size=0000
+   R_XINIT=C:0000, size=0000
+   R_XSEG=X:0000, size=0000
+   rbank0=D:0000, size=0008
+
+Module Segments:
+   CSEG=C:0000, size=0007
+   Transmitter:BIT_BANK=D:0020, size=0001
+   Transmitter:R_BSEG=B:0008, size=0001
+   Transmitter:R_CSEG=C:009F, size=019E
+   Transmitter:R_DINIT=C:0003, size=001B
+   Transmitter:R_DSEG=D:0008, size=000A
+   crt0:R_GSINIT=C:002E, size=0071
+   fscmp:R_CSEG=C:0278, size=0049
+   fsgt:R_CSEG=C:023D, size=0030
+   fsnormalize:R_CSEG=C:0323, size=0033
+   fsreturnval:R_CSEG=C:02D4, size=004F
+   uchar2fs:R_CSEG=C:026D, size=000B
+   ulong2fs:R_CSEG=C:02C1, size=0013
+
+Public symbols:
+   _Freq=D:000D
+   _PORT_Init=C:0174
+   _R_BSEG_size=L:0001
+   _R_BSEG_start=L:0008
+   _R_CONST_size=L:0000
+   _R_CONST_start=L:0000
+   _R_CSEG_size=L:02B7
+   _R_CSEG_start=L:009F
+   _R_DINIT_size=L:001B
+   _R_DINIT_start=L:0003
+   _R_GSINIT_size=L:0071
+   _R_GSINIT_start=L:002E
+   _R_HOME_size=L:0000
+   _R_HOME_start=L:0000
+   _R_ISEG_size=L:0000
+   _R_ISEG_start=L:0000
+   _R_IXSEG_size=L:0000
+   _R_IXSEG_start=L:0000
+   _R_OSEG_size=L:0000
+   _R_OSEG_start=L:0000
+   _R_PSEG_size=L:0000
+   _R_PSEG_start=L:0000
+   _R_XINIT_size=L:0000
+   _R_XINIT_start=L:0000
+   _R_XSEG_size=L:0000
+   _R_XSEG_start=L:0000
+   _SYSCLK_Init=C:0181
+   _TIMER0_Init=C:01A5
+   _Timer2_ISR=C:01AE
+   _Timer3us=C:00EF
+   _Transmitter_R_DSEG_size=L:000A
+   _Transmitter_R_DSEG_start=L:0008
+   _UART0_Init=C:018B
+   ___fsgt=C:023D
+   ___uchar2fs=C:026D
+   ___ulong2fs=C:02C1
+   __c51_external_startup=C:009F
+   _crt0=C:002E
+   _dummy_name_crt0=C:0278
+   _main=C:023B
+   _overflow_count=D:0011
+   _pulse1=D:0009
+   _pulse2=D:000B
+   _pwm_count=D:0008
+   _stack_start=L:0022
+   _waitms=C:0136
+   fs_check_negative_zeros=C:0296
+   fs_compare_uint32=C:0278
+   fs_direct_return=C:02FD
+   fs_normalize_a=C:0323
+   fs_return_inf=C:030B
+   fs_return_nan=C:0318
+   fs_return_zero=C:02F5
+   fs_round_and_return=C:02D4
+   fs_zerocheck_return=C:02EC
+   ulong2fs_doit=C:02CA
+
+Local symbols:
+   Transmitter:L003001?=C:011B
+   Transmitter:L003004?=C:0110
+   Transmitter:L003007?=C:0132
+   Transmitter:L003016?=C:0130
+   Transmitter:L004001?=C:013A
+   Transmitter:L004010?=C:0141
+   Transmitter:L004011?=C:0172
+   Transmitter:L009002?=C:01FE
+   Transmitter:L010002?=C:023B
+   Transmitter:_Timer2_ISR_sloc0_1_0=B:0008
+   Transmitter:b0=D:0020
+   Transmitter:b1=D:0020
+   Transmitter:b2=D:0020
+   Transmitter:b3=D:0020
+   Transmitter:b4=D:0020
+   Transmitter:b5=D:0020
+   Transmitter:b6=D:0020
+   Transmitter:b7=D:0020
+   Transmitter:bits=D:0020
+   crt0:PClearLoop?done?=C:0097
+   crt0:PClearLoop?repeat?=C:0089
+   crt0:XClearLoop?done?=C:007F
+   crt0:XClearLoop?repeat?=C:0071
+   crt0:XInitLoop?done?=C:0067
+   crt0:XInitLoop?repeat?=C:0047
+   crt0:__c51_init_data=C:003B
+   crt0:__c51_program_startup=C:009A
+   crt0:forever?home?=C:009D
+   fscmp:_dummy=C:0278
+   fscmp:a_check=C:0296
+   fscmp:a_not_neg_zero=C:02A8
+   fscmp:a_not_neg_zero_cleanup=C:02A7
+   fscmp:b_check=C:02A8
+   fscmp:b_not_neg_zero=C:02C0
+   fscmp:b_not_neg_zero_cleanup_1=C:02BF
+   fscmp:b_not_neg_zero_cleanup_2=C:02BE
+   fscmp:b_not_neg_zero_cleanup_3=C:02BD
+   fscmp:compare32_done=C:0295
+   fsgt:_dummy=C:023D
+   fsgt:a_negative=C:0252
+   fsgt:a_positive=C:024B
+   fsgt:ab_different=C:0264
+   fsgt:ab_negative=C:025B
+   fsgt:ab_positive=C:0259
+   fsgt:skip_invert=C:0268
+   fsnormalize:L00001?=C:0326
+   fsnormalize:L00002?=C:0338
+   fsnormalize:L00003?=C:0339
+   fsnormalize:L00004?=C:033D
+   fsnormalize:L00005?=C:0344
+   fsnormalize:L00006?=C:0353
+   fsnormalize:_dummy=C:0323
+   fsreturnval:L00001?=C:02DA
+   fsreturnval:_dummy=C:02D4
+   uchar2fs:_dummy=C:026D
+   ulong2fs:_dummy=C:02C1
+   ulong2fs:long2fs_doit=C:02CC

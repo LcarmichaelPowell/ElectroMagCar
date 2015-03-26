@@ -1,0 +1,831 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
+0000              4   ; This file was generated Sat Mar 21 16:48:16 2015
+0000              5   ;--------------------------------------------------------
+                  5   $name Transmitter
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main
+0000             27            public _Timer2_ISR
+0000             28            public _TIMER0_Init
+0000             29            public _UART0_Init
+0000             30            public _SYSCLK_Init
+0000             31            public _PORT_Init
+0000             32            public _waitms
+0000             33            public _Timer3us
+0000             34            public __c51_external_startup
+0000             35            public _overflow_count
+0000             36            public _Freq
+0000             37            public _pulse2
+0000             38            public _pulse1
+0000             39            public _pwm_count
+0000             40   ;--------------------------------------------------------
+0000             41   ; Special Function Registers
+0000             42   ;--------------------------------------------------------
+0000             43   _P0             DATA 0x80
+0000             44   _SP             DATA 0x81
+0000             45   _DPL            DATA 0x82
+0000             46   _DPH            DATA 0x83
+0000             47   _EMI0TC         DATA 0x84
+0000             48   _EMI0CF         DATA 0x85
+0000             49   _OSCLCN         DATA 0x86
+0000             50   _PCON           DATA 0x87
+0000             51   _TCON           DATA 0x88
+0000             52   _TMOD           DATA 0x89
+0000             53   _TL0            DATA 0x8a
+0000             54   _TL1            DATA 0x8b
+0000             55   _TH0            DATA 0x8c
+0000             56   _TH1            DATA 0x8d
+0000             57   _CKCON          DATA 0x8e
+0000             58   _PSCTL          DATA 0x8f
+0000             59   _P1             DATA 0x90
+0000             60   _TMR3CN         DATA 0x91
+0000             61   _TMR4CN         DATA 0x91
+0000             62   _TMR3RLL        DATA 0x92
+0000             63   _TMR4RLL        DATA 0x92
+0000             64   _TMR3RLH        DATA 0x93
+0000             65   _TMR4RLH        DATA 0x93
+0000             66   _TMR3L          DATA 0x94
+0000             67   _TMR4L          DATA 0x94
+0000             68   _TMR3H          DATA 0x95
+0000             69   _TMR4H          DATA 0x95
+0000             70   _USB0ADR        DATA 0x96
+0000             71   _USB0DAT        DATA 0x97
+0000             72   _SCON           DATA 0x98
+0000             73   _SCON0          DATA 0x98
+0000             74   _SBUF           DATA 0x99
+0000             75   _SBUF0          DATA 0x99
+0000             76   _CPT1CN         DATA 0x9a
+0000             77   _CPT0CN         DATA 0x9b
+0000             78   _CPT1MD         DATA 0x9c
+0000             79   _CPT0MD         DATA 0x9d
+0000             80   _CPT1MX         DATA 0x9e
+0000             81   _CPT0MX         DATA 0x9f
+0000             82   _P2             DATA 0xa0
+0000             83   _SPI0CFG        DATA 0xa1
+0000             84   _SPI0CKR        DATA 0xa2
+0000             85   _SPI0DAT        DATA 0xa3
+0000             86   _P0MDOUT        DATA 0xa4
+0000             87   _P1MDOUT        DATA 0xa5
+0000             88   _P2MDOUT        DATA 0xa6
+0000             89   _P3MDOUT        DATA 0xa7
+0000             90   _IE             DATA 0xa8
+0000             91   _CLKSEL         DATA 0xa9
+0000             92   _EMI0CN         DATA 0xaa
+0000             93   __XPAGE         DATA 0xaa
+0000             94   _SBCON1         DATA 0xac
+0000             95   _P4MDOUT        DATA 0xae
+0000             96   _PFE0CN         DATA 0xaf
+0000             97   _P3             DATA 0xb0
+0000             98   _OSCXCN         DATA 0xb1
+0000             99   _OSCICN         DATA 0xb2
+0000            100   _OSCICL         DATA 0xb3
+0000            101   _SBRLL1         DATA 0xb4
+0000            102   _SBRLH1         DATA 0xb5
+0000            103   _FLSCL          DATA 0xb6
+0000            104   _FLKEY          DATA 0xb7
+0000            105   _IP             DATA 0xb8
+0000            106   _CLKMUL         DATA 0xb9
+0000            107   _SMBTC          DATA 0xb9
+0000            108   _AMX0N          DATA 0xba
+0000            109   _AMX0P          DATA 0xbb
+0000            110   _ADC0CF         DATA 0xbc
+0000            111   _ADC0L          DATA 0xbd
+0000            112   _ADC0H          DATA 0xbe
+0000            113   _SFRPAGE        DATA 0xbf
+0000            114   _SMB0CN         DATA 0xc0
+0000            115   _SMB1CN         DATA 0xc0
+0000            116   _SMB0CF         DATA 0xc1
+0000            117   _SMB1CF         DATA 0xc1
+0000            118   _SMB0DAT        DATA 0xc2
+0000            119   _SMB1DAT        DATA 0xc2
+0000            120   _ADC0GTL        DATA 0xc3
+0000            121   _ADC0GTH        DATA 0xc4
+0000            122   _ADC0LTL        DATA 0xc5
+0000            123   _ADC0LTH        DATA 0xc6
+0000            124   _P4             DATA 0xc7
+0000            125   _TMR2CN         DATA 0xc8
+0000            126   _TMR5CN         DATA 0xc8
+0000            127   _REG01CN        DATA 0xc9
+0000            128   _TMR2RLL        DATA 0xca
+0000            129   _TMR5RLL        DATA 0xca
+0000            130   _TMR2RLH        DATA 0xcb
+0000            131   _TMR5RLH        DATA 0xcb
+0000            132   _TMR2L          DATA 0xcc
+0000            133   _TMR5L          DATA 0xcc
+0000            134   _TMR2H          DATA 0xcd
+0000            135   _TMR5H          DATA 0xcd
+0000            136   _SMB0ADM        DATA 0xce
+0000            137   _SMB1ADM        DATA 0xce
+0000            138   _SMB0ADR        DATA 0xcf
+0000            139   _SMB1ADR        DATA 0xcf
+0000            140   _PSW            DATA 0xd0
+0000            141   _REF0CN         DATA 0xd1
+0000            142   _SCON1          DATA 0xd2
+0000            143   _SBUF1          DATA 0xd3
+0000            144   _P0SKIP         DATA 0xd4
+0000            145   _P1SKIP         DATA 0xd5
+0000            146   _P2SKIP         DATA 0xd6
+0000            147   _USB0XCN        DATA 0xd7
+0000            148   _PCA0CN         DATA 0xd8
+0000            149   _PCA0MD         DATA 0xd9
+0000            150   _PCA0CPM0       DATA 0xda
+0000            151   _PCA0CPM1       DATA 0xdb
+0000            152   _PCA0CPM2       DATA 0xdc
+0000            153   _PCA0CPM3       DATA 0xdd
+0000            154   _PCA0CPM4       DATA 0xde
+0000            155   _P3SKIP         DATA 0xdf
+0000            156   _ACC            DATA 0xe0
+0000            157   _XBR0           DATA 0xe1
+0000            158   _XBR1           DATA 0xe2
+0000            159   _XBR2           DATA 0xe3
+0000            160   _IT01CF         DATA 0xe4
+0000            161   _CKCON1         DATA 0xe4
+0000            162   _SMOD1          DATA 0xe5
+0000            163   _EIE1           DATA 0xe6
+0000            164   _EIE2           DATA 0xe7
+0000            165   _ADC0CN         DATA 0xe8
+0000            166   _PCA0CPL1       DATA 0xe9
+0000            167   _PCA0CPH1       DATA 0xea
+0000            168   _PCA0CPL2       DATA 0xeb
+0000            169   _PCA0CPH2       DATA 0xec
+0000            170   _PCA0CPL3       DATA 0xed
+0000            171   _PCA0CPH3       DATA 0xee
+0000            172   _RSTSRC         DATA 0xef
+0000            173   _B              DATA 0xf0
+0000            174   _P0MDIN         DATA 0xf1
+0000            175   _P1MDIN         DATA 0xf2
+0000            176   _P2MDIN         DATA 0xf3
+0000            177   _P3MDIN         DATA 0xf4
+0000            178   _P4MDIN         DATA 0xf5
+0000            179   _EIP1           DATA 0xf6
+0000            180   _EIP2           DATA 0xf7
+0000            181   _SPI0CN         DATA 0xf8
+0000            182   _PCA0L          DATA 0xf9
+0000            183   _PCA0H          DATA 0xfa
+0000            184   _PCA0CPL0       DATA 0xfb
+0000            185   _PCA0CPH0       DATA 0xfc
+0000            186   _PCA0CPL4       DATA 0xfd
+0000            187   _PCA0CPH4       DATA 0xfe
+0000            188   _VDM0CN         DATA 0xff
+0000            189   _DP             DATA 0x8382
+0000            190   _TMR2RL         DATA 0xcbca
+0000            191   _TMR3RL         DATA 0x9392
+0000            192   _TMR4RL         DATA 0x9392
+0000            193   _TMR5RL         DATA 0xcbca
+0000            194   _TMR2           DATA 0xcdcc
+0000            195   _TMR3           DATA 0x9594
+0000            196   _TMR4           DATA 0x9594
+0000            197   _TMR5           DATA 0xcdcc
+0000            198   _SBRL1          DATA 0xb5b4
+0000            199   _ADC0           DATA 0xbebd
+0000            200   _ADC0GT         DATA 0xc4c3
+0000            201   _ADC0LT         DATA 0xc6c5
+0000            202   _PCA0           DATA 0xfaf9
+0000            203   _PCA0CP1        DATA 0xeae9
+0000            204   _PCA0CP2        DATA 0xeceb
+0000            205   _PCA0CP3        DATA 0xeeed
+0000            206   _PCA0CP0        DATA 0xfcfb
+0000            207   _PCA0CP4        DATA 0xfefd
+0000            208   ;--------------------------------------------------------
+0000            209   ; special function bits
+0000            210   ;--------------------------------------------------------
+0000            211   _P0_0           BIT 0x80
+0000            212   _P0_1           BIT 0x81
+0000            213   _P0_2           BIT 0x82
+0000            214   _P0_3           BIT 0x83
+0000            215   _P0_4           BIT 0x84
+0000            216   _P0_5           BIT 0x85
+0000            217   _P0_6           BIT 0x86
+0000            218   _P0_7           BIT 0x87
+0000            219   _TF1            BIT 0x8f
+0000            220   _TR1            BIT 0x8e
+0000            221   _TF0            BIT 0x8d
+0000            222   _TR0            BIT 0x8c
+0000            223   _IE1            BIT 0x8b
+0000            224   _IT1            BIT 0x8a
+0000            225   _IE0            BIT 0x89
+0000            226   _IT0            BIT 0x88
+0000            227   _P1_0           BIT 0x90
+0000            228   _P1_1           BIT 0x91
+0000            229   _P1_2           BIT 0x92
+0000            230   _P1_3           BIT 0x93
+0000            231   _P1_4           BIT 0x94
+0000            232   _P1_5           BIT 0x95
+0000            233   _P1_6           BIT 0x96
+0000            234   _P1_7           BIT 0x97
+0000            235   _S0MODE         BIT 0x9f
+0000            236   _SCON0_6        BIT 0x9e
+0000            237   _MCE0           BIT 0x9d
+0000            238   _REN0           BIT 0x9c
+0000            239   _TB80           BIT 0x9b
+0000            240   _RB80           BIT 0x9a
+0000            241   _TI0            BIT 0x99
+0000            242   _RI0            BIT 0x98
+0000            243   _SCON_6         BIT 0x9e
+0000            244   _MCE            BIT 0x9d
+0000            245   _REN            BIT 0x9c
+0000            246   _TB8            BIT 0x9b
+0000            247   _RB8            BIT 0x9a
+0000            248   _TI             BIT 0x99
+0000            249   _RI             BIT 0x98
+0000            250   _P2_0           BIT 0xa0
+0000            251   _P2_1           BIT 0xa1
+0000            252   _P2_2           BIT 0xa2
+0000            253   _P2_3           BIT 0xa3
+0000            254   _P2_4           BIT 0xa4
+0000            255   _P2_5           BIT 0xa5
+0000            256   _P2_6           BIT 0xa6
+0000            257   _P2_7           BIT 0xa7
+0000            258   _EA             BIT 0xaf
+0000            259   _ESPI0          BIT 0xae
+0000            260   _ET2            BIT 0xad
+0000            261   _ES0            BIT 0xac
+0000            262   _ET1            BIT 0xab
+0000            263   _EX1            BIT 0xaa
+0000            264   _ET0            BIT 0xa9
+0000            265   _EX0            BIT 0xa8
+0000            266   _P3_0           BIT 0xb0
+0000            267   _P3_1           BIT 0xb1
+0000            268   _P3_2           BIT 0xb2
+0000            269   _P3_3           BIT 0xb3
+0000            270   _P3_4           BIT 0xb4
+0000            271   _P3_5           BIT 0xb5
+0000            272   _P3_6           BIT 0xb6
+0000            273   _P3_7           BIT 0xb7
+0000            274   _IP_7           BIT 0xbf
+0000            275   _PSPI0          BIT 0xbe
+0000            276   _PT2            BIT 0xbd
+0000            277   _PS0            BIT 0xbc
+0000            278   _PT1            BIT 0xbb
+0000            279   _PX1            BIT 0xba
+0000            280   _PT0            BIT 0xb9
+0000            281   _PX0            BIT 0xb8
+0000            282   _MASTER0        BIT 0xc7
+0000            283   _TXMODE0        BIT 0xc6
+0000            284   _STA0           BIT 0xc5
+0000            285   _STO0           BIT 0xc4
+0000            286   _ACKRQ0         BIT 0xc3
+0000            287   _ARBLOST0       BIT 0xc2
+0000            288   _ACK0           BIT 0xc1
+0000            289   _SI0            BIT 0xc0
+0000            290   _MASTER1        BIT 0xc7
+0000            291   _TXMODE1        BIT 0xc6
+0000            292   _STA1           BIT 0xc5
+0000            293   _STO1           BIT 0xc4
+0000            294   _ACKRQ1         BIT 0xc3
+0000            295   _ARBLOST1       BIT 0xc2
+0000            296   _ACK1           BIT 0xc1
+0000            297   _SI1            BIT 0xc0
+0000            298   _TF2            BIT 0xcf
+0000            299   _TF2H           BIT 0xcf
+0000            300   _TF2L           BIT 0xce
+0000            301   _TF2LEN         BIT 0xcd
+0000            302   _TF2CEN         BIT 0xcc
+0000            303   _T2SPLIT        BIT 0xcb
+0000            304   _TR2            BIT 0xca
+0000            305   _T2CSS          BIT 0xc9
+0000            306   _T2XCLK         BIT 0xc8
+0000            307   _TF5H           BIT 0xcf
+0000            308   _TF5L           BIT 0xce
+0000            309   _TF5LEN         BIT 0xcd
+0000            310   _TMR5CN_4       BIT 0xcc
+0000            311   _T5SPLIT        BIT 0xcb
+0000            312   _TR5            BIT 0xca
+0000            313   _TMR5CN_1       BIT 0xc9
+0000            314   _T5XCLK         BIT 0xc8
+0000            315   _CY             BIT 0xd7
+0000            316   _AC             BIT 0xd6
+0000            317   _F0             BIT 0xd5
+0000            318   _RS1            BIT 0xd4
+0000            319   _RS0            BIT 0xd3
+0000            320   _OV             BIT 0xd2
+0000            321   _F1             BIT 0xd1
+0000            322   _PARITY         BIT 0xd0
+0000            323   _CF             BIT 0xdf
+0000            324   _CR             BIT 0xde
+0000            325   _PCA0CN_5       BIT 0xde
+0000            326   _CCF4           BIT 0xdc
+0000            327   _CCF3           BIT 0xdb
+0000            328   _CCF2           BIT 0xda
+0000            329   _CCF1           BIT 0xd9
+0000            330   _CCF0           BIT 0xd8
+0000            331   _ACC_7          BIT 0xe7
+0000            332   _ACC_6          BIT 0xe6
+0000            333   _ACC_5          BIT 0xe5
+0000            334   _ACC_4          BIT 0xe4
+0000            335   _ACC_3          BIT 0xe3
+0000            336   _ACC_2          BIT 0xe2
+0000            337   _ACC_1          BIT 0xe1
+0000            338   _ACC_0          BIT 0xe0
+0000            339   _AD0EN          BIT 0xef
+0000            340   _AD0TM          BIT 0xee
+0000            341   _AD0INT         BIT 0xed
+0000            342   _AD0BUSY        BIT 0xec
+0000            343   _AD0WINT        BIT 0xeb
+0000            344   _AD0CM2         BIT 0xea
+0000            345   _AD0CM1         BIT 0xe9
+0000            346   _AD0CM0         BIT 0xe8
+0000            347   _B_7            BIT 0xf7
+0000            348   _B_6            BIT 0xf6
+0000            349   _B_5            BIT 0xf5
+0000            350   _B_4            BIT 0xf4
+0000            351   _B_3            BIT 0xf3
+0000            352   _B_2            BIT 0xf2
+0000            353   _B_1            BIT 0xf1
+0000            354   _B_0            BIT 0xf0
+0000            355   _SPIF           BIT 0xff
+0000            356   _WCOL           BIT 0xfe
+0000            357   _MODF           BIT 0xfd
+0000            358   _RXOVRN         BIT 0xfc
+0000            359   _NSSMD1         BIT 0xfb
+0000            360   _NSSMD0         BIT 0xfa
+0000            361   _TXBMT          BIT 0xf9
+0000            362   _SPIEN          BIT 0xf8
+0000            363   ;--------------------------------------------------------
+0000            364   ; overlayable register banks
+0000            365   ;--------------------------------------------------------
+0000            366            rbank0 segment data overlay
+0000            367   ;--------------------------------------------------------
+0000            368   ; overlayable bit register bank
+0000            369   ;--------------------------------------------------------
+0000            370            rseg BIT_BANK
+0000            371   bits:
+0000            372            ds 1
+0001            373            b0 equ  bits.0 
+0001            374            b1 equ  bits.1 
+0001            375            b2 equ  bits.2 
+0001            376            b3 equ  bits.3 
+0001            377            b4 equ  bits.4 
+0001            378            b5 equ  bits.5 
+0001            379            b6 equ  bits.6 
+0001            380            b7 equ  bits.7 
+0001            381   ;--------------------------------------------------------
+0001            382   ; internal ram data
+0001            383   ;--------------------------------------------------------
+0000            384            rseg R_DSEG
+0000            385   _pwm_count:
+0000            386            ds 1
+0001            387   _pulse1:
+0001            388            ds 2
+0003            389   _pulse2:
+0003            390            ds 2
+0005            391   _Freq:
+0005            392            ds 4
+0009            393   _overflow_count:
+0009            394            ds 1
+000A            395   ;--------------------------------------------------------
+000A            396   ; overlayable items in internal ram 
+000A            397   ;--------------------------------------------------------
+0000            398            rseg    R_OSEG
+0000            399   ;--------------------------------------------------------
+0000            400   ; indirectly addressable internal ram data
+0000            401   ;--------------------------------------------------------
+0000            402            rseg R_ISEG
+0000            403   ;--------------------------------------------------------
+0000            404   ; absolute internal ram data
+0000            405   ;--------------------------------------------------------
+0000            406            DSEG
+0000            407   ;--------------------------------------------------------
+0000            408   ; bit data
+0000            409   ;--------------------------------------------------------
+0000            410            rseg R_BSEG
+0000            411   _Timer2_ISR_sloc0_1_0:
+0000            412            DBIT    1
+0001            413   ;--------------------------------------------------------
+0001            414   ; paged external ram data
+0001            415   ;--------------------------------------------------------
+0000            416            rseg R_PSEG
+0000            417   ;--------------------------------------------------------
+0000            418   ; external ram data
+0000            419   ;--------------------------------------------------------
+0000            420            rseg R_XSEG
+0000            421   ;--------------------------------------------------------
+0000            422   ; absolute external ram data
+0000            423   ;--------------------------------------------------------
+0000            424            XSEG
+0000            425   ;--------------------------------------------------------
+0000            426   ; external initialized ram data
+0000            427   ;--------------------------------------------------------
+0000            428            rseg R_IXSEG
+0000            429            rseg R_HOME
+0000            430            rseg R_GSINIT
+0000            431            rseg R_CSEG
+0000            432   ;--------------------------------------------------------
+0000            433   ; Reset entry point and interrupt vectors
+0000            434   ;--------------------------------------------------------
+0000            435            CSEG at 0x0000
+0000 020100     436            ljmp    _crt0
+002B            437            CSEG at 0x002b
+002B 020100     438            ljmp    _Timer2_ISR
+002E            439   ;--------------------------------------------------------
+002E            440   ; global & static initialisations
+002E            441   ;--------------------------------------------------------
+0000            442            rseg R_HOME
+0000            443            rseg R_GSINIT
+0000            444            rseg R_GSINIT
+0000            445   ;--------------------------------------------------------
+0000            446   ; data variables initialization
+0000            447   ;--------------------------------------------------------
+0000            448            rseg R_DINIT
+0000            449   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:10: volatile unsigned char pwm_count=0;
+0000 758000     450            mov     _pwm_count,#0x00
+0003            451   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:11: volatile unsigned int pulse1=100;
+0003 758064     452            mov     _pulse1,#0x64
+0006 E4         453            clr     a
+0007 F581       454            mov     (_pulse1 + 1),a
+0009            455   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:12: volatile unsigned int pulse2=50;
+0009 754032     456            mov     _pulse2,#0x32
+000C E4         457            clr     a
+000D F541       458            mov     (_pulse2 + 1),a
+000F            459   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:13: volatile double Freq=100.0;
+000F 750000     460            mov     _Freq,#0x00
+0012 750100     461            mov     (_Freq + 1),#0x00
+0015 7502C8     462            mov     (_Freq + 2),#0xC8
+0018 750342     463            mov     (_Freq + 3),#0x42
+001B            464            ; The linker places a 'ret' at the end of segment R_DINIT.
+001B            465   ;--------------------------------------------------------
+001B            466   ; code
+001B            467   ;--------------------------------------------------------
+0000            468            rseg R_CSEG
+0000            469   ;------------------------------------------------------------
+0000            470   ;Allocation info for local variables in function '_c51_external_startup'
+0000            471   ;------------------------------------------------------------
+0000            472   ;------------------------------------------------------------
+0000            473   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:17: char _c51_external_startup (void)
+0000            474   ;        -----------------------------------------
+0000            475   ;         function _c51_external_startup
+0000            476   ;        -----------------------------------------
+0000            477   __c51_external_startup:
+0000            478            using   0
+0000            479   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:19: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
+0000 53D9BF     480            anl     _PCA0MD,#0xBF
+0003            481   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:20: VDM0CN=0x80; // enable VDD monitor
+0003 75FF80     482            mov     _VDM0CN,#0x80
+0006            483   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:21: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
+0006 75EF06     484            mov     _RSTSRC,#0x06
+0009            485   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:29: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
+0009 43A903     486            orl     _CLKSEL,#0x03
+000C            487   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:33: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
+000C 43B203     488            orl     _OSCICN,#0x03
+000F            489   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:36: SCON0 = 0x10; 
+000F 759810     490            mov     _SCON0,#0x10
+0012            491   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:38: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
+0012 758D30     492            mov     _TH1,#0x30
+0015            493   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:39: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+0015 538EF4     494            anl     _CKCON,#0xF4
+0018            495   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:40: CKCON |=  0x08;
+0018 438E08     496            orl     _CKCON,#0x08
+001B            497   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:53: TL1 = TH1;      // Init Timer1
+001B 858D8B     498            mov     _TL1,_TH1
+001E            499   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:54: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
+001E 53890F     500            anl     _TMOD,#0x0F
+0021            501   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:55: TMOD |=  0x20;                       
+0021 438920     502            orl     _TMOD,#0x20
+0024            503   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:56: TR1 = 1; // START Timer1
+0024 D28E       504            setb    _TR1
+0026            505   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:57: TI = 1;  // Indicate TX0 ready
+0026 D299       506            setb    _TI
+0028            507   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:60: P2MDOUT|=0b_0001_0111;
+0028 43A617     508            orl     _P2MDOUT,#0x17
+002B            509   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:61: P0MDOUT |= 0x10; // Enable UTX as push-pull output
+002B 43A410     510            orl     _P0MDOUT,#0x10
+002E            511   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:62: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)                     
+002E 75E101     512            mov     _XBR0,#0x01
+0031            513   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:63: XBR1     = 0x40; // Enable crossbar and weak pull-ups
+0031 75E240     514            mov     _XBR1,#0x40
+0034            515   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:66: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
+0034 75C800     516            mov     _TMR2CN,#0x00
+0037            517   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:67: CKCON|=0b_0001_0000;
+0037 438E10     518            orl     _CKCON,#0x10
+003A            519   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:68: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
+003A 75CA78     520            mov     _TMR2RL,#0x78
+003D 75CBEC     521            mov     (_TMR2RL >> 8),#0xEC
+0040            522   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:69: TMR2=0xffff;   // Set to reload immediately
+0040 75CCFF     523            mov     _TMR2,#0xFF
+0043 75CDFF     524            mov     (_TMR2 >> 8),#0xFF
+0046            525   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:70: ET2=1;         // Enable Timer2 interrupts
+0046 D2AD       526            setb    _ET2
+0048            527   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:71: TR2=1;         // Start Timer2
+0048 D2CA       528            setb    _TR2
+004A            529   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:73: EA=1; // Enable interrupts
+004A D2AF       530            setb    _EA
+004C            531   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:75: return 0;
+004C 758200     532            mov     dpl,#0x00
+004F 22         533            ret
+0050            534   ;------------------------------------------------------------
+0050            535   ;Allocation info for local variables in function 'Timer3us'
+0050            536   ;------------------------------------------------------------
+0050            537   ;us                        Allocated to registers r2 r3 r4 r5 
+0050            538   ;i                         Allocated to registers r6 r7 r0 r1 
+0050            539   ;------------------------------------------------------------
+0050            540   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:78: void Timer3us(unsigned long us)
+0050            541   ;        -----------------------------------------
+0050            542   ;         function Timer3us
+0050            543   ;        -----------------------------------------
+0050            544   _Timer3us:
+0050 AA82       545            mov     r2,dpl
+0052 AB83       546            mov     r3,dph
+0054 ACF0       547            mov     r4,b
+0056 FD         548            mov     r5,a
+0057            549   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:83: CKCON|=0b_0100_0000;
+0057 438E40     550            orl     _CKCON,#0x40
+005A            551   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:85: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+005A 7592D0     552            mov     _TMR3RL,#0xD0
+005D 7593FF     553            mov     (_TMR3RL >> 8),#0xFF
+0060            554   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:86: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+0060 859294     555            mov     _TMR3,_TMR3RL
+0063 859395     556            mov     (_TMR3 >> 8),(_TMR3RL >> 8)
+0066            557   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:88: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
+0066 759104     558            mov     _TMR3CN,#0x04
+0069            559   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:89: for (i = 0; i < us; i++)       // Count <us> overflows
+0069 7E00       560            mov     r6,#0x00
+006B 7F00       561            mov     r7,#0x00
+006D 7800       562            mov     r0,#0x00
+006F 7900       563            mov     r1,#0x00
+0071            564   L003004?:
+0071 C3         565            clr     c
+0072 EE         566            mov     a,r6
+0073 9A         567            subb    a,r2
+0074 EF         568            mov     a,r7
+0075 9B         569            subb    a,r3
+0076 E8         570            mov     a,r0
+0077 9C         571            subb    a,r4
+0078 E9         572            mov     a,r1
+0079 9D         573            subb    a,r5
+007A 5001       574            jnc     L003007?
+007C            575   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:91: while (!(TMR3CN & 0x80));  // Wait for overflow
+007C            576   L003001?:
+007C E591       577            mov     a,_TMR3CN
+007E 30E710     578            jnb     acc.7,L003001?
+0081            579   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:92: TMR3CN &= ~(0x80);         // Clear overflow indicator
+0081 53917F     580            anl     _TMR3CN,#0x7F
+0084            581   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:89: for (i = 0; i < us; i++)       // Count <us> overflows
+0084 0E         582            inc     r6
+0085 BE0090     583            cjne    r6,#0x00,L003016?
+0088 0F         584            inc     r7
+0089 BF0090     585            cjne    r7,#0x00,L003016?
+008C 08         586            inc     r0
+008D B80090     587            cjne    r0,#0x00,L003004?
+0090 09         588            inc     r1
+0091            589   L003016?:
+0091 8001       590            sjmp    L003004?
+0093            591   L003007?:
+0093            592   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:94: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
+0093 759100     593            mov     _TMR3CN,#0x00
+0096 22         594            ret
+0097            595   ;------------------------------------------------------------
+0097            596   ;Allocation info for local variables in function 'waitms'
+0097            597   ;------------------------------------------------------------
+0097            598   ;ms                        Allocated to registers r2 r3 
+0097            599   ;j                         Allocated to registers r2 r3 
+0097            600   ;------------------------------------------------------------
+0097            601   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:98: void waitms (unsigned int ms)
+0097            602   ;        -----------------------------------------
+0097            603   ;         function waitms
+0097            604   ;        -----------------------------------------
+0097            605   _waitms:
+0097 AA82       606            mov     r2,dpl
+0099 AB83       607            mov     r3,dph
+009B            608   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:101: for(j=ms; j!=0; j--)
+009B            609   L004001?:
+009B BA0010     610            cjne    r2,#0x00,L004010?
+009E BB0010     611            cjne    r3,#0x00,L004010?
+00A1 22         612            ret
+00A2            613   L004010?:
+00A2            614   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:103: Timer3us(249);
+00A2 9000F9     615            mov     dptr,#(0xF9&0x00ff)
+00A5 E4         616            clr     a
+00A6 F5F0       617            mov     b,a
+00A8 C002       618            push    ar2
+00AA C003       619            push    ar3
+00AC 120100     620            lcall   _Timer3us
+00AF            621   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:104: Timer3us(249);
+00AF 9000F9     622            mov     dptr,#(0xF9&0x00ff)
+00B2 E4         623            clr     a
+00B3 F5F0       624            mov     b,a
+00B5 120100     625            lcall   _Timer3us
+00B8            626   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:105: Timer3us(249);
+00B8 9000F9     627            mov     dptr,#(0xF9&0x00ff)
+00BB E4         628            clr     a
+00BC F5F0       629            mov     b,a
+00BE 120100     630            lcall   _Timer3us
+00C1            631   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:106: Timer3us(250);
+00C1 9000FA     632            mov     dptr,#(0xFA&0x00ff)
+00C4 E4         633            clr     a
+00C5 F5F0       634            mov     b,a
+00C7 120100     635            lcall   _Timer3us
+00CA D003       636            pop     ar3
+00CC D002       637            pop     ar2
+00CE            638   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:101: for(j=ms; j!=0; j--)
+00CE 1A         639            dec     r2
+00CF BAFF50     640            cjne    r2,#0xff,L004011?
+00D2 1B         641            dec     r3
+00D3            642   L004011?:
+00D3 8001       643            sjmp    L004001?
+00D5            644   ;------------------------------------------------------------
+00D5            645   ;Allocation info for local variables in function 'PORT_Init'
+00D5            646   ;------------------------------------------------------------
+00D5            647   ;------------------------------------------------------------
+00D5            648   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:110: void PORT_Init (void)
+00D5            649   ;        -----------------------------------------
+00D5            650   ;         function PORT_Init
+00D5            651   ;        -----------------------------------------
+00D5            652   _PORT_Init:
+00D5            653   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:112: P0MDOUT |= 0x10; // Enable UART TX as push-pull output
+00D5 43A410     654            orl     _P0MDOUT,#0x10
+00D8            655   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:113: XBR0=0b_0000_0001; // Enable UART on P0.4(TX) and P0.5(RX)                    
+00D8 75E101     656            mov     _XBR0,#0x01
+00DB            657   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:114: XBR1=0b_0101_0000; // Enable crossbar.  Enable T0 input.
+00DB 75E250     658            mov     _XBR1,#0x50
+00DE            659   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:115: XBR2=0b_0000_0000;
+00DE 75E300     660            mov     _XBR2,#0x00
+00E1 22         661            ret
+00E2            662   ;------------------------------------------------------------
+00E2            663   ;Allocation info for local variables in function 'SYSCLK_Init'
+00E2            664   ;------------------------------------------------------------
+00E2            665   ;------------------------------------------------------------
+00E2            666   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:118: void SYSCLK_Init (void)
+00E2            667   ;        -----------------------------------------
+00E2            668   ;         function SYSCLK_Init
+00E2            669   ;        -----------------------------------------
+00E2            670   _SYSCLK_Init:
+00E2            671   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:126: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
+00E2 43A903     672            orl     _CLKSEL,#0x03
+00E5            673   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:130: OSCICN |= 0x03;   // Configure internal oscillator for its maximum frequency
+00E5 43B203     674            orl     _OSCICN,#0x03
+00E8            675   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:131: RSTSRC  = 0x04;   // Enable missing clock detector
+00E8 75EF04     676            mov     _RSTSRC,#0x04
+00EB 22         677            ret
+00EC            678   ;------------------------------------------------------------
+00EC            679   ;Allocation info for local variables in function 'UART0_Init'
+00EC            680   ;------------------------------------------------------------
+00EC            681   ;------------------------------------------------------------
+00EC            682   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:134: void UART0_Init (void)
+00EC            683   ;        -----------------------------------------
+00EC            684   ;         function UART0_Init
+00EC            685   ;        -----------------------------------------
+00EC            686   _UART0_Init:
+00EC            687   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:136: SCON0 = 0x10;
+00EC 759810     688            mov     _SCON0,#0x10
+00EF            689   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:139: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
+00EF 758D30     690            mov     _TH1,#0x30
+00F2            691   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:140: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+00F2 538EF4     692            anl     _CKCON,#0xF4
+00F5            693   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:141: CKCON |=  0x08;
+00F5 438E08     694            orl     _CKCON,#0x08
+00F8            695   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:154: TL1 = TH1;      // Init Timer1
+00F8 858D8B     696            mov     _TL1,_TH1
+00FB            697   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:155: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
+00FB 53890F     698            anl     _TMOD,#0x0F
+00FE            699   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:156: TMOD |=  0x20;                       
+00FE 438920     700            orl     _TMOD,#0x20
+0101            701   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:157: TR1 = 1; // START Timer1
+0101 D28E       702            setb    _TR1
+0103            703   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:158: TI = 1;  // Indicate TX0 ready
+0103 D299       704            setb    _TI
+0105 22         705            ret
+0106            706   ;------------------------------------------------------------
+0106            707   ;Allocation info for local variables in function 'TIMER0_Init'
+0106            708   ;------------------------------------------------------------
+0106            709   ;------------------------------------------------------------
+0106            710   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:161: void TIMER0_Init(void)
+0106            711   ;        -----------------------------------------
+0106            712   ;         function TIMER0_Init
+0106            713   ;        -----------------------------------------
+0106            714   _TIMER0_Init:
+0106            715   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:163: TMOD&=0b_1111_0000; // Set the bits of Timer/Counter 0 to zero
+0106 5389F0     716            anl     _TMOD,#0xF0
+0109            717   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:164: TMOD|=0b_0000_0001; // Timer/Counter 0 used as a 16-bit timer
+0109 438901     718            orl     _TMOD,#0x01
+010C            719   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:165: TR0=0; // Stop Timer/Counter 0
+010C C28C       720            clr     _TR0
+010E 22         721            ret
+010F            722   ;------------------------------------------------------------
+010F            723   ;Allocation info for local variables in function 'Timer2_ISR'
+010F            724   ;------------------------------------------------------------
+010F            725   ;------------------------------------------------------------
+010F            726   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:168: void Timer2_ISR (void) interrupt 5
+010F            727   ;        -----------------------------------------
+010F            728   ;         function Timer2_ISR
+010F            729   ;        -----------------------------------------
+010F            730   _Timer2_ISR:
+010F C040       731            push    bits
+0111 C0E0       732            push    acc
+0113 C0F0       733            push    b
+0115 C082       734            push    dpl
+0117 C083       735            push    dph
+0119 C002       736            push    (0+2)
+011B C003       737            push    (0+3)
+011D C004       738            push    (0+4)
+011F C005       739            push    (0+5)
+0121 C006       740            push    (0+6)
+0123 C007       741            push    (0+7)
+0125 C000       742            push    (0+0)
+0127 C001       743            push    (0+1)
+0129 C0D0       744            push    psw
+012B 75D000     745            mov     psw,#0x00
+012E            746   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:171: TF2H = 0; // Clear Timer2 interrupt flag
+012E C2CF       747            clr     _TF2H
+0130            748   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:172: pwm_count++;
+0130 0580       749            inc     _pwm_count
+0132            750   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:173: if(pwm_count>Freq) pwm_count=0;
+0132 858082     751            mov     dpl,_pwm_count
+0135 120100     752            lcall   ___uchar2fs
+0138 AA82       753            mov     r2,dpl
+013A AB83       754            mov     r3,dph
+013C ACF0       755            mov     r4,b
+013E FD         756            mov     r5,a
+013F C000       757            push    _Freq
+0141 C001       758            push    (_Freq + 1)
+0143 C002       759            push    (_Freq + 2)
+0145 C003       760            push    (_Freq + 3)
+0147 8A82       761            mov     dpl,r2
+0149 8B83       762            mov     dph,r3
+014B 8CF0       763            mov     b,r4
+014D ED         764            mov     a,r5
+014E 120100     765            lcall   ___fsgt
+0151 AA82       766            mov     r2,dpl
+0153 E581       767            mov     a,sp
+0155 24FC       768            add     a,#0xfc
+0157 F581       769            mov     sp,a
+0159 EA         770            mov     a,r2
+015A 6001       771            jz      L009002?
+015C 758000     772            mov     _pwm_count,#0x00
+015F            773   L009002?:
+015F            774   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:175: OUT0=pwm_count>pulse1?0:1;
+015F AA80       775            mov     r2,_pwm_count
+0161 7B00       776            mov     r3,#0x00
+0163 C3         777            clr     c
+0164 E580       778            mov     a,_pulse1
+0166 9A         779            subb    a,r2
+0167 E581       780            mov     a,(_pulse1 + 1)
+0169 9B         781            subb    a,r3
+016A 9250       782            mov  _Timer2_ISR_sloc0_1_0,c
+016C B3         783            cpl     c
+016D 92A0       784            mov     _P2_0,c
+016F            785   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:176: OUT1=pwm_count>pulse2?0:1;
+016F AA80       786            mov     r2,_pwm_count
+0171 7B00       787            mov     r3,#0x00
+0173 C3         788            clr     c
+0174 E540       789            mov     a,_pulse2
+0176 9A         790            subb    a,r2
+0177 E541       791            mov     a,(_pulse2 + 1)
+0179 9B         792            subb    a,r3
+017A 9250       793            mov  _Timer2_ISR_sloc0_1_0,c
+017C B3         794            cpl     c
+017D 92A1       795            mov     _P2_1,c
+017F D0D0       796            pop     psw
+0181 D001       797            pop     (0+1)
+0183 D000       798            pop     (0+0)
+0185 D007       799            pop     (0+7)
+0187 D006       800            pop     (0+6)
+0189 D005       801            pop     (0+5)
+018B D004       802            pop     (0+4)
+018D D003       803            pop     (0+3)
+018F D002       804            pop     (0+2)
+0191 D083       805            pop     dph
+0193 D082       806            pop     dpl
+0195 D0F0       807            pop     b
+0197 D0E0       808            pop     acc
+0199 D040       809            pop     bits
+019B 32         810            reti
+019C            811   ;------------------------------------------------------------
+019C            812   ;Allocation info for local variables in function 'main'
+019C            813   ;------------------------------------------------------------
+019C            814   ;------------------------------------------------------------
+019C            815   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:181: void main (void) {
+019C            816   ;        -----------------------------------------
+019C            817   ;         function main
+019C            818   ;        -----------------------------------------
+019C            819   _main:
+019C            820   ;        C:\Users\Leighton Carmichael\Documents\GitStuff\ElectroMagCar\Transmitter.c:182: while(1){
+019C            821   L010002?:
+019C 8001       822            sjmp    L010002?
+019E            823            rseg R_CSEG
+019E            824   
+0000            825            rseg R_XINIT
+0000            826   
+0000            827            rseg R_CONST
+0000            828   
+002E            829            CSEG
+002E            830   
+002E            831   end
